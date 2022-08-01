@@ -20,11 +20,11 @@ def get_webdriver(get_chrome_options):
     return driver
 
 
-@pytest.fixture
+@pytest.fixture(scope='function')  # functions means - every test will run in 'clean' browser. Session means - all test will runs in one session
 def setup(request, get_webdriver):
     driver = get_webdriver
     url = 'https://www.dns-shop.ru'
-    if request.cls is not None:
+    if request.cls is not None:  # If test in class then use driver with test class
         request.cls.driver = driver
     driver.get(url)
     yield driver
